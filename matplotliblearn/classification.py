@@ -1,14 +1,13 @@
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris as load_dataset
 import numpy as np
-
+import seaborn as sns
 
 def plot1feature_manually():
     dataset = load_dataset()
     data = dataset['data']
     target = dataset['target']
     feature_names = dataset['feature_names']
-
 
     n_rows, n_features = np.shape(data)
     print ("features={}".format(n_features))
@@ -28,6 +27,11 @@ def plot1feature_manually():
         axes[feature_index].set_ylabel(feature_names[feature_index])
     plt.show()
 
+def pairplot(X_dataframe, category_col_name):
+    sns.set()
+    return sns.pairplot(X_dataframe, hue=category_col_name, height=2.5)
+
+
 def plot_linear_func(axes, x_left, x_right, m, b):
-    X_vector = np.linspace(x_left, x_right, np,abs(x_left) + np.abs(x_right))
+    X_vector = np.linspace(x_left, x_right, np.abs(x_left) + np.abs(x_right))
     axes.plot(X_vector, m*X_vector + b, "-b")
