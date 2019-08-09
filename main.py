@@ -1,4 +1,7 @@
 from mglearn.datasets import load_extended_boston
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+
 import mlhelpers.converter as conv
 import matplotliblearn.classification as mplclassification
 import classification.iris as class_iris
@@ -32,7 +35,10 @@ pairGrid = mplclassification.pairplot(irisDataFrameSeaborn, 'species')
 plt.show()
 
 # classification with logistic regression
-class_iris.logisticRegression(axesGrid=pairGrid.axes)
+# strategy = LogisticRegression(C=1)
+strategy = KNeighborsClassifier(n_neighbors=3)
+class_iris.classification_generic(axesGrid=pairGrid.axes, classifier=strategy)
+# print("Coef={}".format(strategy.coef_))
 
 # strava api
 print ("activities={}".format(strava.loadActivities()))
