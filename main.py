@@ -1,4 +1,4 @@
-from mglearn.datasets import load_extended_boston
+from pandas import DataFrame, Series
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 
@@ -24,23 +24,43 @@ npData = dataset_bunch['data']
 npTarget = dataset_bunch['target']
 feature_names = dataset_bunch['feature_names']
 
-irisDataFrame = conv.from_X_y_to_DataFrame(npData, npTarget, np.hstack((feature_names, "species")))
-irisDataFrameSeaborn = sb.load_dataset('iris')
+dfIrisSeaborn = sb.load_dataset('iris')
+
+print("dfIrisSeaborn={}".format(dfIrisSeaborn))
+
+# slice vertically and use only two features and label 'species'
+dfDataSepals, sTarget = conv.sliceVertically(dfIrisSeaborn, {'sepal_length', 'sepal_width'}), dfIrisSeaborn['species']
+#sFeatures = Series(data=np.arange(0, 7), index=feature_names)
+#print("features={}".format(sFeatures))
+
+pairGrid = mplclassification.pairplot(dfDataSepals.assign(species=sTarget), 'species')
+
+# convert to numpy
+# npSepals = dfSepals.to_numpy(copy=True)
 
 # plot pair plot of all features
-pairGrid = mplclassification.pairplot(irisDataFrameSeaborn, 'species')
-
-# plot linear func of linear classification result using coef and intercept for corresponding feature
-# mplclassification.plot_linear_func(pairGrid.axes[0, 1], 0.0, 8.0, 2.0, 1.0)
 plt.show()
 
+strategy = KNeighborsClassifier(n_neighbors=3)
 # classification with logistic regression
 # strategy = LogisticRegression(C=1)
-strategy = KNeighborsClassifier(n_neighbors=3)
-class_iris.classification_generic(axesGrid=pairGrid.axes, classifier=strategy)
+
+# class_iris.classification_iris_concrete(pairGrid.axes, classifier=strategy)
+class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFrame({"species": sTarget}), axesGrid=pairGrid.axes, classifier=strategy)
 # print("Coef={}".format(strategy.coef_))
 
 # strava api
 print ("activities={}".format(strava.loadActivities()))
+
+
+
+
+
+
+
+
+
+
+
 
 
