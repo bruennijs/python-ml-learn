@@ -7,7 +7,7 @@ import matplotliblearn.classification as mplclassification
 import classification.iris as class_iris
 from sklearn.datasets import load_iris
 import numpy as np
-from strava_api.strava import StravaApiClient
+from strava_api import StravaApiClient
 import seaborn as sb
 import matplotlib.pyplot as plt
 
@@ -51,7 +51,8 @@ class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFr
 
 # strava api
 client = StravaApiClient()
-client.loadLoggedInUsersActivities()
+# client.loadLoggedInUsersActivities()
+# client.get_Profile()
 
 
 
