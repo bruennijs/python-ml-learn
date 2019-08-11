@@ -7,7 +7,7 @@ import matplotliblearn.classification as mplclassification
 import classification.iris as class_iris
 from sklearn.datasets import load_iris
 import numpy as np
-import strava
+from strava_api.strava import StravaApiClient
 import seaborn as sb
 import matplotlib.pyplot as plt
 
@@ -50,7 +50,8 @@ class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFr
 # print("Coef={}".format(strategy.coef_))
 
 # strava api
-print ("activities={}".format(strava.loadActivities()))
+client = StravaApiClient()
+client.loadLoggedInUsersActivities()
 
 
 
