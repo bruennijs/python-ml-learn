@@ -1,12 +1,13 @@
 from pandas import DataFrame, Series
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, Lasso
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import LinearSVC
 
 import mlhelpers.converter as conv
 import matplotliblearn.classification as mplclassification
 import classification.iris as class_iris
 from sklearn.datasets import load_iris
-import numpy as np
+
 from strava_api import StravaApiClient
 import seaborn as sb
 import matplotlib.pyplot as plt
@@ -41,17 +42,18 @@ pairGrid = mplclassification.pairplot(dfDataSepals.assign(species=sTarget), 'spe
 # plot pair plot of all features
 plt.show()
 
-strategy = KNeighborsClassifier(n_neighbors=3)
+# strategy = KNeighborsClassifier(n_neighbors=3)
+strategy = LinearSVC(C=1.00)
 # classification with logistic regression
 # strategy = LogisticRegression(C=1)
 
 # class_iris.classification_iris_concrete(pairGrid.axes, classifier=strategy)
-class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFrame({"species": sTarget}), axesGrid=pairGrid.axes, classifier=strategy)
-# print("Coef={}".format(strategy.coef_))
+class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFrame({"species": sTarget}) == 'versicolor', axesGrid=pairGrid.axes, classifier=strategy)
+print("Coef={}".format(strategy.coef_))
 
 # strava api
 client = StravaApiClient()
-# client.loadLoggedInUsersActivities()
+client.loadLoggedInUsersActivities()
 # client.get_Profile()
 
 

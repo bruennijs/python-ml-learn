@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 scikit-learn = "*"
 mglearn = "*"
+swagger-client = {editable = true,path = "./strava_swagger_client"}
 
 [requires]
 python_version = "3.5"
