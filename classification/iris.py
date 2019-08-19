@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 import pandas.plotting as pdplot
-# from sklearn.linear_model import Ridgeplot2d
+# from sklearn.linear_model import Ridge
 
 def classification_iris_concrete(axesGrid=None, classifier=None):
 
@@ -31,13 +31,14 @@ def classification_iris_concrete(axesGrid=None, classifier=None):
     print("Score train={:.2f}".format(classifier.score(X_train, y_train == category)))
     print("Score test={:.2f}".format(classifier.score(X_test, y_test == category)))
 
+
     # plot
     # plot2d.plot_2d_separator(alg, X_train, ax=axesGrid)
 
     # plt.show()
 
 
-def classification_generic(data, target, axesGrid=None, classifier=None):
+def classification_generic(data, target, classifier=None):
     """
     Shuffles test data and scores classification algorithm.
 
@@ -71,11 +72,8 @@ def classification_generic(data, target, axesGrid=None, classifier=None):
 
     X_train, X_test, y_train, y_test = train_test_split(data, target, random_state=0)
 
-    # category = np.where(bunch.target_names == 'versicolor')[0]
-    # category = target_names['versicolor']
-    category = 'versicolor'
-    npY_train = y_train.iloc[:,0].ravel()   # get Series of column 0 and male to np array
-    npY_test  = y_test.iloc[:,0].ravel()   # get Series of column 0 and male to np array
+    #npY_train = y_train.iloc[:,0].ravel()   # get Series of column 0 and male to np array
+    # npY_test  = y_test.iloc[:,0].ravel()   # get Series of column 0 and male to np array
 
     # print("target_names={}".format(target_names))
     print("feature_namee={}".format(data.columns))
@@ -85,9 +83,11 @@ def classification_generic(data, target, axesGrid=None, classifier=None):
     # X_train_width_only = np.hstack((np.reshape(X_train[:,1], (-1, 1)), np.reshape(X_train[:,3], (-1, 1))))
     # print("X_train_width_only.shape={}".format(X_train_width_only.shape))
 
-    classifier.fit(X_train, npY_train)
-    print("Score train={:.2f}".format(classifier.score(X_train, npY_train)))
-    print("Score test={:.2f}".format(classifier.score(X_test, npY_test)))
+    classifier.fit(X_train, y_train.iloc[:, 0])
+    print("Score train={:.2f}".format(classifier.score(X_train, y_train.iloc[:, 0])))
+    print("Score test={:.2f}".format(classifier.score(X_test, y_test.iloc[:, 0])))
+
+    # print("[n_samples, Predict proba per class + y_test labels]={}".format(np.hstack((classifier.predict_proba(X_test), y_test))))
 
     # plot
     # plot2d.plot_2d_separator(alg, X_train, ax=axesGrid)
