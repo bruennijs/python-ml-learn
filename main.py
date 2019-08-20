@@ -55,7 +55,6 @@ class_iris.classification_generic(data=dfNfeatures, target=DataFrame({"species":
 pairGrid = mplclassification.pairplot(dfNfeatures.assign(species=sTarget), 'species')
 
 # plot 2d seperator with linear classificatos having coefs_ vector
-# strategy.fit(dfNfeatures, sTarget)
 # axes = plt.subplots(2)
 plot2d.plot_2d_separator(strategy, dfNfeatures.to_numpy(copy=True), ax=pairGrid.axes[0, 1])
 plot2d.plot_2d_separator(strategy, dfNfeatures.to_numpy(copy=True), ax=pairGrid.axes[1, 0])
