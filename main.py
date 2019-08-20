@@ -1,4 +1,5 @@
-from mglearn.plot_2d_separator import plot_2d_separator, plot_2d_classification
+import mglearn
+import mglearn.plot_2d_separator as plot2d
 from pandas import DataFrame, Series
 from sklearn.linear_model import LogisticRegression, Lasso
 from sklearn.neighbors import KNeighborsClassifier
@@ -27,29 +28,38 @@ npTarget = dataset_bunch['target']
 feature_names = dataset_bunch['feature_names']
 
 dfIrisSeaborn = sb.load_dataset('iris')
+sTarget = dfIrisSeaborn['species']
 
 print("dfIrisSeaborn={}".format(dfIrisSeaborn))
 
 # slice vertically and use only two features and label 'species'
-dfDataSepals, sTarget = conv.sliceVertically(dfIrisSeaborn, {'sepal_length', 'sepal_width'}), dfIrisSeaborn['species']
 #sFeatures = Series(data=np.arange(0, 7), index=feature_names)
 
 # strategy = KNeighborsClassifier(n_neighbors=3)
-strategy = LinearSVC(C=0.001, max_iter=100000)
+strategy = LinearSVC(C=0.1, max_iter=100000)
 # strategy = SVC(C=1000)
 # classification with logistic regression
-# strategy = LogisticRegression(C=1)
+# strategy = LogisticRegression(C=0.1)
 
-# class_iris.classification_iris_concrete(pairGrid.axes, classifier=strategy)
-class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFrame({"species": sTarget}) == 'versicolor', classifier=strategy)
+# train & score
+#class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFrame({"species": sTarget}) == 'versicolor', classifier=strategy)
+dfNfeatures = dfIrisSeaborn.loc[:, ('sepal_length', 'petal_length')]
+
+class_iris.classification_generic(data=dfNfeatures, target=DataFrame({"species": sTarget}) == 'setosa', classifier=strategy)
+
+
 # print("strategy.classes_={}".format(strategy.classes_))
-print("Coef={}".format(strategy.coef_))
+# print("Coef={}".format(strategy.coef_))
 
 # plot pair plot of all features
-pairGrid = mplclassification.pairplot(dfIrisSeaborn.assign(species=sTarget), 'species')
+pairGrid = mplclassification.pairplot(dfNfeatures.assign(species=sTarget), 'species')
 
 # plot 2d seperator with linear classificatos having coefs_ vector
-# plot_2d_separator(strategy, dfIrisSeaborn.iloc[:, 0:2].to_numpy(copy=True))
+# strategy.fit(dfNfeatures, sTarget)
+# axes = plt.subplots(2)
+plot2d.plot_2d_separator(strategy, dfNfeatures.to_numpy(copy=True), ax=pairGrid.axes[0, 1])
+plot2d.plot_2d_separator(strategy, dfNfeatures.to_numpy(copy=True), ax=pairGrid.axes[1, 0])
+# mglearn.discrete_scatter(dfNfeatures.iloc[:, 0], dfNfeatures.iloc[:, 1], sTarget)
 
 # plot
 plt.show()
