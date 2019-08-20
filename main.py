@@ -36,8 +36,8 @@ print("dfIrisSeaborn={}".format(dfIrisSeaborn))
 #sFeatures = Series(data=np.arange(0, 7), index=feature_names)
 
 # strategy = KNeighborsClassifier(n_neighbors=3)
-strategy = LinearSVC(C=0.1, max_iter=100000)
-# strategy = SVC(C=1000)
+# strategy = LinearSVC(C=0.1, max_iter=100000)
+strategy = SVC(C=10, gamma=0.1)
 # classification with logistic regression
 # strategy = LogisticRegression(C=0.1)
 
@@ -45,7 +45,7 @@ strategy = LinearSVC(C=0.1, max_iter=100000)
 #class_iris.classification_generic(data=dfIrisSeaborn.iloc[:, 0:4], target=DataFrame({"species": sTarget}) == 'versicolor', classifier=strategy)
 dfNfeatures = dfIrisSeaborn.loc[:, ('sepal_length', 'petal_length')]
 
-class_iris.classification_generic(data=dfNfeatures, target=DataFrame({"species": sTarget}) == 'setosa', classifier=strategy)
+class_iris.classification_generic(data=dfNfeatures, target=DataFrame({"species": sTarget}) == 'versicolor', classifier=strategy)
 
 
 # print("strategy.classes_={}".format(strategy.classes_))
